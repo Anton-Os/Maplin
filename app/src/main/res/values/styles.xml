@@ -6,8 +6,6 @@
       <item name="colorPrimaryDark">#639186</item>
       <item name="colorAccent">@color/colorAccent</item>
       <item name="android:textColor">#464147</item>
-      <!-- <item name="android:textColorSecondary">#464147</item> -->
-      <!-- <item name="colorOnPrimary">#464147</item> -->
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -19,6 +17,7 @@
         <item name="android:textColorPrimary">#464147</item>
         <item name="actionMenuTextColor">#464147</item>
         <item name="android:textColorSecondary">#464147</item>
+        <!-- <item name="android:font">@font/dokdo_regular</item> v26 -->
     </style>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">

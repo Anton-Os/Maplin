@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">#464147</item>
+        <item name="actionMenuTextColor">#464147</item>
+        <item name="android:textColorSecondary">#464147</item>
+        <item name="android:font">@font/dokdo_regular</item> <!-- TODO: Fix this -->
+    </style>
+</resources>
