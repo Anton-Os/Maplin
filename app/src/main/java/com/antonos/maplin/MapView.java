@@ -2,10 +2,13 @@ package com.antonos.maplin;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.GestureDetector;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -27,11 +30,15 @@ public class MapView extends androidx.appcompat.widget.AppCompatImageView {
         super(context, attrs);
     }
 
-    @Override
-    protected void onDraw(Canvas canvas){
-        // TODO: set background Bitmap
+    public void setBkImage(int resId){
+        setImageResource(resId);
+        // background = BitmapFactory.decodeResource(getResources(), resId); // Saved as bitmap in class
+    }
 
-        canvas.drawRect(0, 0, 100, 100, new Paint());
+    public void setPinpoints(List<Pinpoint> ps){ pinpointList = ps; }
+    public void addPinpoint(Pinpoint p){
+        pinpointList.add(p);
+        Log.v("STATUS", "Pinpoint added!"); // TESTING
     }
 
     private Bitmap background;

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SelectorActivity">
+
+    <ListView
+        android:id="@+id/map_list"
+        android:layout_width="313dp"
+        android:layout_height="match_parent">
+
+        <!-- Insert Menu Items to Select Maps -->
+
+    </ListView>
+
+    <ListView
+        android:id="@+id/map_list_options"
+        android:layout_width="91dp"
+        android:layout_height="match_parent">
+
+        <!-- Insert Option Items to Perform Operations -->
+
+    </ListView>
+
+
+</LinearLayout>
