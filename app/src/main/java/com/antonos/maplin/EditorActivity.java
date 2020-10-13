@@ -2,6 +2,7 @@ package com.antonos.maplin;
 
 import android.annotation.SuppressLint;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,15 +14,17 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
+import androidx.core.view.ScaleGestureDetectorCompat;
 
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class EditorActivity extends AppCompatActivity {
-
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +46,8 @@ public class EditorActivity extends AppCompatActivity {
         /* mapView.setOnDragListener(new View.OnDragListener() {
             @Override
             public boolean onDrag(View v, DragEvent event) {
-                event.
+                if(event.getAction() == DragEvent.ACTION_DRAG_ENTERED) Log.v("STATUS", "Drag entered!");
+                else if(event.getAction() == DragEvent.ACTION_DRAG_EXITED) Log.v("STATUS", "Drag exited!");
                 return false;
             }
         }); */
@@ -52,28 +56,46 @@ public class EditorActivity extends AppCompatActivity {
         mapView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, @SuppressLint("ClickableViewAccessibility") MotionEvent event) {
-                Pinpoint pinpoint = new Pinpoint(defaultPinpointImg, event.getX(), event.getY());
-                // mapView.addPinpoint(pinpoint);
+
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        Pinpoint pinpoint = new Pinpoint(defaultPinpointImg, event.getX(), event.getY());
+                        mapView.addPinpoint(pinpoint);
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        Log.v("STATUS", "Dragging movement detected!");
+                        break;
+                    default:
+                        break;
+                }
                 return false;
             }
         });
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        // Floating Action Button and Menu Operations
+        FloatingActionButton settingsFAB = (FloatingActionButton) findViewById(R.id.FAB_settings);
+        settingsFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent selectorActivity_intent = new Intent(EditorActivity.this, SelectorActivity.class);
                 startActivity(selectorActivity_intent); // Switch screens to the selector activity
-                // TODO: Implement snackbar later
-                /* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                   .setAction("Action", null).show(); */
             }
         });
+
+        FloatingActionButton addFAB = (FloatingActionButton) findViewById(R.id.FAB_add);
+        addFAB.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public void onClick(View view){
+                    // TODO: Change the type of map feature type
+                    // TODO: Implement snackbar later
+                    /* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show(); */
+                }
+            }
+        );
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_scrolling, menu);
         return true;
     }
@@ -82,7 +104,6 @@ public class EditorActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) { return true; }
         /* if (id == R.id.action_add) { return true;} */
         return super.onOptionsItemSelected(item);

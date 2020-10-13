@@ -19,5 +19,8 @@ public class Pinpoint {
     private double xCoord;
     private double yCoord;
 
-    // TODO: Implement an enum to distinguish pinpoint types
+    public Bitmap getIcon(){ return icon; }
+    public String getName(){ return name; }
+    public double getXCoord(){ return xCoord; }
+    public double getYCoord(){ return yCoord; }
 }
