@@ -14,6 +14,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
+import androidx.core.view.MotionEventCompat;
 import androidx.core.view.ScaleGestureDetectorCompat;
 
 import android.util.Log;
@@ -23,6 +24,8 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 public class EditorActivity extends AppCompatActivity {
     @SuppressLint("ClickableViewAccessibility")
@@ -32,43 +35,35 @@ public class EditorActivity extends AppCompatActivity {
         setContentView(R.layout.editor_activity);
 
         // Setup Operations TODO: Include code to load saved states
-        String channeIdStr = "maplin_channel_N1";
-        NotificationCompat.Builder notifyBuilder = new NotificationCompat.Builder(this, channeIdStr);
-        notifyBuilder.setContentTitle("Maplin").setContentText("Welcome to Maplin!");
-        notifyBuilder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
-        // TODO: Set small icon above! Use intent perhaps!
-        // NotificationManagerCompat notifyMan = (NotificationManagerCompat)getSystemService(NOTIFICATION_SERVICE);
-        // NotificationManagerCompat.from(this).notify(1, notifyBuilder.build());
+        startupNotify();
 
         // View and UI Component Operations
+        frameLayout = findViewById(R.id.map_frame_layout);
         mapView = findViewById(R.id.map_view);
         mapView.setBkImage(R.drawable.larger_beans);
-        /* mapView.setOnDragListener(new View.OnDragListener() {
-            @Override
-            public boolean onDrag(View v, DragEvent event) {
-                if(event.getAction() == DragEvent.ACTION_DRAG_ENTERED) Log.v("STATUS", "Drag entered!");
-                else if(event.getAction() == DragEvent.ACTION_DRAG_EXITED) Log.v("STATUS", "Drag exited!");
-                return false;
-            }
-        }); */
 
         final Bitmap defaultPinpointImg = BitmapFactory.decodeResource(getResources(), R.drawable.plus);
         mapView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, @SuppressLint("ClickableViewAccessibility") MotionEvent event) {
-
-                switch (event.getAction()) {
+                switch (event.getActionMasked()) {
                     case MotionEvent.ACTION_DOWN:
                         Pinpoint pinpoint = new Pinpoint(defaultPinpointImg, event.getX(), event.getY());
-                        mapView.addPinpoint(pinpoint);
-                        break;
+
+                        ImageView pinpointIconView = new ImageView(getApplicationContext());
+                        // pinpointIconView.setPadding(100, 100, 100, 100);
+                        pinpointIconView.setX(event.getX());
+                        pinpointIconView.setY(event.getY());
+                        pinpointIconView.setImageBitmap(pinpoint.getIcon());
+
+                        frameLayout.addView(pinpointIconView);
+                        return true;
                     case MotionEvent.ACTION_MOVE:
-                        Log.v("STATUS", "Dragging movement detected!");
-                        break;
+                        Log.v("STATUS", "Move action!"); // TODO: Replace with the proper effect
+                        return true;
                     default:
-                        break;
+                        return false;
                 }
-                return false;
             }
         });
 
@@ -109,7 +104,18 @@ public class EditorActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public MapView mapView; // Use this to display target map
+    private void startupNotify(){
+        String channeIdStr = "maplin_channel_N1";
+        NotificationCompat.Builder notifyBuilder = new NotificationCompat.Builder(this, channeIdStr);
+        notifyBuilder.setContentTitle("Maplin").setContentText("Welcome to Maplin!");
+        notifyBuilder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        // TODO: Set small icon above! Use intent perhaps!
+        // NotificationManagerCompat notifyMan = (NotificationManagerCompat)getSystemService(NOTIFICATION_SERVICE);
+        // NotificationManagerCompat.from(this).notify(1, notifyBuilder.build());
+    }
+
+    public FrameLayout frameLayout;
+    public MapView mapView; // Use this to display target map // TODO: Replace with com.antonos.maplin.MapData
     public GLRenderView renderView; // Experimental overlay for graphics
     // Intent selectorActivity_intent = new Intent(EditorActivity.this, SelectorActivity.class);
     // public Drawable defaultDrawable;
