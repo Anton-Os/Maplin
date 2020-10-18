@@ -42,18 +42,21 @@ public class EditorActivity extends AppCompatActivity {
         mapView = findViewById(R.id.map_view);
         mapView.setBkImage(R.drawable.larger_beans);
 
-        final Bitmap defaultPinpointImg = BitmapFactory.decodeResource(getResources(), R.drawable.plus);
+        final Bitmap defaultPinImg = BitmapFactory.decodeResource(getResources(), R.drawable.plus);
+        // defaultPinImg.setHeight(maxImgHeight); // Mutable Bitmap?
+        // defaultPinImg.setWidth(maxImgWidth); // Mutable Bitmap?
         mapView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, @SuppressLint("ClickableViewAccessibility") MotionEvent event) {
                 switch (event.getActionMasked()) {
                     case MotionEvent.ACTION_DOWN:
-                        Pinpoint pinpoint = new Pinpoint(defaultPinpointImg, event.getX(), event.getY());
+                        Pinpoint pinpoint = new Pinpoint(defaultPinImg, event.getX(), event.getY());
 
                         ImageView pinpointIconView = new ImageView(getApplicationContext());
+                        pinpointIconView.setBackgroundColor(0xFF00FFFF);
                         // pinpointIconView.setPadding(100, 100, 100, 100);
-                        pinpointIconView.setX(event.getX());
-                        pinpointIconView.setY(event.getY());
+                        pinpointIconView.setX(event.getX() - (float)defaultPinImg.getWidth());
+                        pinpointIconView.setY(event.getY() - (float)defaultPinImg.getHeight());
                         pinpointIconView.setImageBitmap(pinpoint.getIcon());
 
                         frameLayout.addView(pinpointIconView);
@@ -117,6 +120,9 @@ public class EditorActivity extends AppCompatActivity {
     public FrameLayout frameLayout;
     public MapView mapView; // Use this to display target map // TODO: Replace with com.antonos.maplin.MapData
     public GLRenderView renderView; // Experimental overlay for graphics
+
+    private final int maxImgWidth = 10;
+    private final int maxImgHeight = 10;
     // Intent selectorActivity_intent = new Intent(EditorActivity.this, SelectorActivity.class);
     // public Drawable defaultDrawable;
 }

@@ -9,20 +9,19 @@
     android:weightSum="3">
 
     <ListView
-        android:id="@+id/map_list_options"
+        android:id="@+id/map_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#7A9EAF"
         android:cacheColorHint="#FFFFFF"
-        android:layout_weight="1"
-        >
+        android:layout_weight="1">
 
-        <!-- Insert Menu Items to Select Maps -->
+        <!-- Insert Menu Items for each Map -->
 
     </ListView>
 
     <ListView
-        android:id="@+id/map_list"
+        android:id="@+id/map_list_options"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#C2EAC9"
