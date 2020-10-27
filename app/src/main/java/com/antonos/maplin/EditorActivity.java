@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.VectorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -17,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.view.MotionEventCompat;
 import androidx.core.view.ScaleGestureDetectorCompat;
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 import android.util.Log;
 import android.view.DragEvent;
@@ -49,8 +51,6 @@ public class EditorActivity extends AppCompatActivity {
         mapView.setBkImage(R.drawable.larger_beans);
 
         final Bitmap defaultPinImg = BitmapFactory.decodeResource(getResources(), R.drawable.plus);
-        // defaultPinImg.setHeight(maxImgHeight); // Mutable Bitmap?
-        // defaultPinImg.setWidth(maxImgWidth); // Mutable Bitmap?
         mapView.setOnTouchListener(new View.OnTouchListener() { // On Touch Listener specific to MapView
             @RequiresApi(api = Build.VERSION_CODES.N) // TODO: Update to Android Version 24
             @Override
@@ -62,15 +62,16 @@ public class EditorActivity extends AppCompatActivity {
                         v.startDragAndDrop(null, shadowBuilder, v, 0);
                         return true;
                     case MotionEvent.ACTION_UP: // TODO: Check how long button pressed
-                        Pinpoint pinpoint = new Pinpoint(defaultPinImg, event.getX(), event.getY());
+                        Pinpoint pinpoint = new Pinpoint(getDrawable(R.drawable.ic_baseline_pin_drop_24), event.getX(), event.getY());
 
                         Log.v("STATUS", "Up Action!");
                         ImageView pinpointIconView = new ImageView(getApplicationContext());
-                        pinpointIconView.setBackgroundColor(0xFF00FFFF);
-                        // pinpointIconView.setPadding(100, 100, 100, 100);
-                        pinpointIconView.setX(event.getX() - (float)defaultPinImg.getWidth());
-                        pinpointIconView.setY(event.getY() - (float)defaultPinImg.getHeight());
-                        pinpointIconView.setImageBitmap(pinpoint.getIcon());
+                        pinpointIconView.setX(event.getX() - pinpointIconView.getScaleX()); // TODO: Change to pin icon width / 2
+                        pinpointIconView.setY(event.getY() - pinpointIconView.getScaleY()); // TODO: Change to pin icon height / 2
+                        pinpointIconView.setScaleX(pinpointIconWidth);
+                        pinpointIconView.setScaleY(pinpointIconHeight);
+                        pinpointIconView.setBackgroundColor(0x1100FFFF);
+                        pinpointIconView.setImageResource(R.drawable.ic_baseline_pin_drop_24);
 
                         frameLayout.addView(pinpointIconView);
                         return true;
@@ -84,7 +85,13 @@ public class EditorActivity extends AppCompatActivity {
                 }
             }
         });
-        //mapView.setOnDragListener(new MapView.MapDragListener()); // TODO: Attempt to add the drag listener within this activity
+        mapView.setOnDragListener(new View.OnDragListener() {
+            @Override
+            public boolean onDrag(View v, DragEvent event) {
+                Log.v("STATUS","Drag Success!");
+                return false;
+            }
+        }); // TODO: Attempt to add the drag listener within this activity
 
         // -------------- Floating Action Button and Menu Operations -------------- //
         FloatingActionButton settingsFAB = (FloatingActionButton) findViewById(R.id.FAB_settings);
@@ -108,22 +115,7 @@ public class EditorActivity extends AppCompatActivity {
         );
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_scrolling, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) { return true; }
-        /* if (id == R.id.action_add) { return true;} */
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void startupNotify(){
+    private void startupNotify(){ // Notification experiment
         String channeIdStr = "maplin_channel_N1";
         NotificationCompat.Builder notifyBuilder = new NotificationCompat.Builder(this, channeIdStr);
         notifyBuilder.setContentTitle("Maplin").setContentText("Welcome to Maplin!");
@@ -138,8 +130,7 @@ public class EditorActivity extends AppCompatActivity {
     public MapView mapView; // Use this to display target map // TODO: Replace with com.antonos.maplin.Map
     public GLRenderView renderView; // Experimental overlay for graphics
 
-    private final int maxImgWidth = 10;
-    private final int maxImgHeight = 10;
+    private final float pinpointIconWidth = 0.05f;
+    private final float pinpointIconHeight = 0.05f;
     // Intent selectorActivity_intent = new Intent(EditorActivity.this, SelectorActivity.class);
-    // public Drawable defaultDrawable;
 }
