@@ -1,11 +1,11 @@
 package com.antonos.maplin.helper;
 
-import androidx.core.widget.ImageViewCompat;
-import android.content.Context;
-import android.util.AttributeSet;
+        import android.content.Context;
+        import android.util.AttributeSet;
+        import android.util.Pair;
 
-import java.util.ArrayList;
-import java.util.List;
+        import java.util.ArrayList;
+        import java.util.List;
 
 public class Map {
     private String name;
@@ -20,5 +20,6 @@ public class Map {
             setImageResource(resId);
         }
     }
-    // public MapView mapView;
+
+    // public List<Pair> pinpointImagePairs; // TODO: Switch to ImageViewCompat
 }

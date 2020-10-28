@@ -1,10 +1,13 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
   <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-      <!-- Customize your theme here. -->
-      <item name="colorPrimary">#defcf5</item>
-      <item name="colorPrimaryDark">#639186</item>
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+      <item name="colorPrimary">@color/colorPrimary</item>
+      <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
       <item name="colorAccent">@color/colorAccent</item>
+      <item name="android:colorBackground">@color/colorBackground</item>
       <item name="android:textColor">#464147</item>
+      <item name="android:textSize">15sp</item>
+      <!-- <item name="android:font">@font/josefin_slab_regular</item>
+      <item name="android:fontFamily">"Serif"</item> -->
     </style>
 </resources>

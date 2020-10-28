@@ -21,7 +21,7 @@
         android:id="@+id/map_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#C2EAC9">
+        android:background="@color/colorPrimary">
 
         <!-- Insert Option Items to Perform Operations -->
 

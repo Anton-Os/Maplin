@@ -24,15 +24,16 @@ public class SelectorActivity extends AppCompatActivity {
         final ArrayList<String> mapList = new ArrayList<String>();
         mapList.add("Global Map");
         mapList.add("US Map");
+        mapList.add("Map 3");
 
         // TODO: Instance of adapter
-        MapList_Adapter mapList_adapter = new MapList_Adapter(this, R.layout.map_list_item, mapList);
+        MapList_Adapter mapList_adapter = new MapList_Adapter(this, R.layout.map_list_item, R.id.map_item_text, mapList);
         mapListView.setAdapter(mapList_adapter);
     }
 
     private class MapList_Adapter extends ArrayAdapter<String> { // Stable unchanging adapter for options
-        public MapList_Adapter(@NonNull Context context, int textViewResourceId, @NonNull List<String> objects) {
-            super(context, textViewResourceId, objects);
+        public MapList_Adapter(@NonNull Context context, int resourceId, int textViewResourceId, @NonNull List<String> objects) {
+            super(context, resourceId, textViewResourceId, objects);
         }
 
         @Override
