@@ -27,6 +27,7 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
@@ -62,16 +63,15 @@ public class EditorActivity extends AppCompatActivity {
                         v.startDragAndDrop(null, shadowBuilder, v, 0);
                         return true;
                     case MotionEvent.ACTION_UP: // TODO: Check how long button pressed
-                        Pinpoint pinpoint = new Pinpoint(getDrawable(R.drawable.ic_baseline_pin_drop_24), event.getX(), event.getY());
+                        Pinpoint pinpoint = new Pinpoint(getDrawable(R.drawable.baseline_pin_drop_black_18dp), event.getX(), event.getY());
 
                         Log.v("STATUS", "Up Action!");
                         ImageView pinpointIconView = new ImageView(getApplicationContext());
-                        pinpointIconView.setX(event.getX() - pinpointIconView.getScaleX()); // TODO: Change to pin icon width / 2
-                        pinpointIconView.setY(event.getY() - pinpointIconView.getScaleY()); // TODO: Change to pin icon height / 2
-                        pinpointIconView.setScaleX(pinpointIconWidth);
-                        pinpointIconView.setScaleY(pinpointIconHeight);
+                        pinpointIconView.setLayoutParams(new ViewGroup.LayoutParams(pinpointIconWidth, pinpointIconHeight));
+                        pinpointIconView.setX(event.getX());
+                        pinpointIconView.setY(event.getY());
                         pinpointIconView.setBackgroundColor(0x1100FFFF);
-                        pinpointIconView.setImageResource(R.drawable.ic_baseline_pin_drop_24);
+                        pinpointIconView.setImageResource(R.drawable.baseline_pin_drop_black_18dp);
 
                         frameLayout.addView(pinpointIconView);
                         return true;
@@ -127,10 +127,10 @@ public class EditorActivity extends AppCompatActivity {
 
     public FrameLayout frameLayout;
     public Map map; // New map wrapper class
-    public MapView mapView; // Use this to display target map // TODO: Replace with com.antonos.maplin.Map
+    public Map.MapView mapView; // Use this to display target map // TODO: Replace with com.antonos.maplin.Map
     public GLRenderView renderView; // Experimental overlay for graphics
 
-    private final float pinpointIconWidth = 0.05f;
-    private final float pinpointIconHeight = 0.05f;
+    private final int pinpointIconWidth = 70;
+    private final int pinpointIconHeight = 70;
     // Intent selectorActivity_intent = new Intent(EditorActivity.this, SelectorActivity.class);
 }

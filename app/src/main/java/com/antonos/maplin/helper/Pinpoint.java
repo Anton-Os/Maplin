@@ -1,7 +1,9 @@
 package com.antonos.maplin.helper;
 
-
+import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.AttributeSet;
 
 public class Pinpoint {
     public Pinpoint(Drawable i, double x, double y){ // Generic pinpoint constructor
@@ -15,6 +17,7 @@ public class Pinpoint {
         xCoord = x;
         yCoord = y;
     }
+
     private Drawable icon;
     private String name;
     private double xCoord;
