@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 
+import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.annotation.RequiresApi;
@@ -17,15 +18,20 @@ import androidx.core.app.NotificationCompat;
 import android.util.Log;
 import android.util.Pair;
 import android.view.DragEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.antonos.maplin.helper.Pinpoint;
 import com.antonos.maplin.helper.Map;
 import com.google.android.material.snackbar.Snackbar;
+
+import java.lang.Math;
 
 public class EditorActivity extends AppCompatActivity {
 // implements View.OnTouchListener, View.OnDragListener {
@@ -44,37 +50,37 @@ public class EditorActivity extends AppCompatActivity {
         mapView = findViewById(R.id.map_view);
         mapView.setBkImage(R.drawable.larger_beans);
 
-        final Bitmap defaultPinImg = BitmapFactory.decodeResource(getResources(), R.drawable.plus);
+        pinpointResId = R.drawable.baseline_pin_drop_black_18dp; // Sets the default value
         mapView.setOnTouchListener(new View.OnTouchListener() { // On Touch Listener specific to MapView
             @RequiresApi(api = Build.VERSION_CODES.N) // TODO: Update to Android Version 24
             @Override
             public boolean onTouch(View view, @SuppressLint("ClickableViewAccessibility") MotionEvent event) {
-            switch (event.getActionMasked()) {
-                case MotionEvent.ACTION_DOWN:
-                    Log.v("STATUS", "Down Action!");
-                    return true;
-                case MotionEvent.ACTION_UP: // TODO: Check how long button pressed
-                    Pinpoint pinpoint = new Pinpoint(getDrawable(R.drawable.baseline_pin_drop_black_18dp), event.getX(), event.getY());
+                switch (event.getActionMasked()) {
+                    case MotionEvent.ACTION_DOWN:
+                        Log.v("STATUS", "Down Action!");
+                        return true;
+                    case MotionEvent.ACTION_UP: // TODO: Check how long button pressed
+                        Pinpoint pinpoint = new Pinpoint(getDrawable(pinpointResId), event.getX(), event.getY());
 
-                    Log.v("STATUS", "Up Action!");
-                    ImageView pinpointIconView = new ImageView(getApplicationContext());
-                    pinpointIconView.setLayoutParams(new ViewGroup.LayoutParams(pinpointIconWidth, pinpointIconHeight));
-                    pinpointIconView.setX(event.getX() + mapView.getTranslationX() - (float)pinpointIconWidth / 2.0f);
-                    pinpointIconView.setY(event.getY() + mapView.getTranslationY() - (float)pinpointIconHeight);
-                    // pinpointIconView.setBackgroundColor(0x1100FFFF);
-                    pinpointIconView.setImageResource(R.drawable.baseline_pin_drop_black_18dp);
+                        Log.v("STATUS", "Up Action!");
+                        ImageView pinpointIconView = new ImageView(getApplicationContext());
+                        pinpointIconView.setLayoutParams(new ViewGroup.LayoutParams(pinpointIconWidth, pinpointIconHeight));
+                        pinpointIconView.setX(event.getX() + mapView.getTranslationX() - (float)pinpointIconWidth / 2.0f);
+                        pinpointIconView.setY(event.getY() + mapView.getTranslationY() - (float)pinpointIconHeight);
+                        // pinpointIconView.setBackgroundColor(0x1100FFFF); // Optional background color
+                        pinpointIconView.setImageResource(pinpointResId);
 
-                    frameLayout.addView(pinpointIconView);
-                    // map.pinpointImagePairs.add(new Pair(pinpoint, pinpointIconView));
-                    return true;
-                case MotionEvent.ACTION_MOVE:
-                    Log.v("STATUS", "Move action!");
-                    View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder();
-                    view.startDragAndDrop(null, shadowBuilder, view, 0);
-                    return true;
-                default:
-                    return false;
-            }
+                        frameLayout.addView(pinpointIconView);
+                        // map.pinpointImagePairs.add(new Pair(pinpoint, pinpointIconView));
+                        return true;
+                    case MotionEvent.ACTION_MOVE:
+                        Log.v("STATUS", "Move action!");
+                        View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder();
+                        view.startDragAndDrop(null, shadowBuilder, view, 0);
+                        return true;
+                    default:
+                        return false;
+                }
             }
         });
         mapView.setOnDragListener(new View.OnDragListener() {
@@ -89,6 +95,11 @@ public class EditorActivity extends AppCompatActivity {
                         // TODO: Fix the blocky movement that happens here
                         mapView.setX(event.getX());
                         mapView.setY(event.getY());
+
+                        // Debugging purposes!!!
+                        String debugStr = "X: " + String.valueOf(event.getX()) + " Y: " + String.valueOf(event.getY());
+                        Log.v("STATUS", debugStr);
+
                         view.invalidate();
                         return true;
                     case DragEvent.ACTION_DRAG_ENDED:
@@ -106,8 +117,8 @@ public class EditorActivity extends AppCompatActivity {
         settingsFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent selectorActivity_intent = new Intent(EditorActivity.this, SelectorActivity.class);
-                startActivity(selectorActivity_intent); // Switch screens to the selector activity
+            Intent selectorActivity_intent = new Intent(EditorActivity.this, SelectorActivity.class);
+            startActivity(selectorActivity_intent); // Switch screens to the selector activity
             }
         });
 
@@ -116,10 +127,38 @@ public class EditorActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view){
                     // TODO: Change the type of map feature type
-                    Snackbar.make(view, "Switched to pinpoint mode", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    // TODO: Change menu items
                 }
             }
         );
+
+        BottomAppBar bottomAppBar = (BottomAppBar) findViewById(R.id.bottom_app_bar);
+        bottomAppBar.setOnMenuItemClickListener(new BottomAppBar.OnMenuItemClickListener(){
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.map_edit_slot1:
+                        pinpointResId = R.drawable.baseline_pin_drop_black_18dp;
+                        Log.v("STATUS", "Work!");
+                        Toast.makeText(getApplicationContext(), "Switched to pin drop!", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.map_edit_slot2:
+                        pinpointResId = R.drawable.baseline_person_pin_circle_black_18dp;
+                        Toast.makeText(getApplicationContext(), "Switched to person drop!", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.map_edit_slot3:
+                        pinpointResId = R.drawable.baseline_terrain_black_18dp;
+                        Toast.makeText(getApplicationContext(), "Switched to terrain drop!", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.map_edit_slot4:
+                        pinpointResId = R.drawable.baseline_grass_black_18dp;
+                        Toast.makeText(getApplicationContext(), "Switched to grass drop!", Toast.LENGTH_SHORT).show();
+                        return true;
+                    default:
+                        return true;
+                }
+            }
+        });
     }
 
     private void startupNotify(){ // Notification experiment
@@ -137,7 +176,9 @@ public class EditorActivity extends AppCompatActivity {
     public Map.MapView mapView; // Use this to display target map // TODO: Replace with com.antonos.maplin.Map
     public GLRenderView renderView; // Experimental overlay for graphics
 
+    private int pinpointResId;
+    // private float lastEventX, lastEventY;
+    // private final float dragDropThresh = 0.3f; // Threshold value to resist movement
     private final int pinpointIconWidth = 70;
     private final int pinpointIconHeight = 70;
-    // Intent selectorActivity_intent = new Intent(EditorActivity.this, SelectorActivity.class);
 }

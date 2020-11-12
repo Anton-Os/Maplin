@@ -9,30 +9,34 @@
     tools:context=".EditorActivity">
 
     <!-- Embedding Map View to take up entire background -->
-    <include layout="@layout/map_view" />
+<include layout="@layout/map_view" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/FAB_settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
-        app:layout_anchorGravity="top|end"
-        app:srcCompat="@android:drawable/ic_menu_mapmode" />
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/FAB_settings"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/fab_margin"
+    android:backgroundTint="@color/colorAccent"
+    app:layout_anchorGravity="top|end"
+    app:srcCompat="@android:drawable/ic_menu_mapmode" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/FAB_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_large_margin"
-        app:layout_anchorGravity="top|start"
-        app:srcCompat="@android:drawable/ic_menu_edit" />
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/FAB_add"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/fab_large_margin"
+    android:backgroundTint="@color/colorAccent"
+    app:layout_anchorGravity="top|start"
+    app:srcCompat="@android:drawable/ic_menu_edit" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottom_app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
-        />
+    android:id="@+id/bottom_app_bar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
+    app:menu="@menu/pinpoint_bottom_app_bar" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

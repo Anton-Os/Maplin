@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/map_edit_slot1"
+        android:title="A"
+        android:icon="@drawable/baseline_pin_drop_black_18dp"
+        android:navigationContentDescription="slot 1"
+        android:visible="true"
+        app:showAsAction="always" />
+
+    <item android:id="@+id/map_edit_slot2"
+        android:title="B"
+        android:icon="@drawable/baseline_person_pin_circle_black_18dp"
+        android:navigationContentDescription="slot 2"
+        android:visible="true"
+        app:showAsAction="always" />
+
+    <item android:id="@+id/map_edit_slot3"
+        android:title="C"
+        android:icon="@drawable/baseline_terrain_black_18dp"
+        android:navigationContentDescription="slot 3"
+        android:visible="true"
+        app:showAsAction="always" />
+
+    <item android:id="@+id/map_edit_slot4"
+        android:title="D"
+        android:icon="@drawable/baseline_grass_black_18dp"
+        android:navigationContentDescription="slot 4"
+        android:visible="true"
+        app:showAsAction="always" />
+
+</menu>

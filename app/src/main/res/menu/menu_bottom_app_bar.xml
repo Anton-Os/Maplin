@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item android:id="@+id/map_edit_slot1"
-        android:title="A" />
-    <item android:id="@+id/map_edit_slot2"
-        android:title="B" />
-
-</menu>
