@@ -16,7 +16,7 @@
         android:paddingLeft="10dp"
         android:paddingTop="10dp"
         android:paddingBottom="7dp"
-        android:fontFamily="@font/josefin_slab_regular" />
+        android:fontFamily="@font/baskvill" />
 
     <ImageButton
         android:layout_width="20dp"

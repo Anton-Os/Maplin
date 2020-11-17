@@ -58,6 +58,8 @@ public class EditorActivity extends AppCompatActivity {
                 switch (event.getActionMasked()) {
                     case MotionEvent.ACTION_DOWN:
                         Log.v("STATUS", "Down Action!");
+                        lastEventX = event.getX();
+                        lastEventY = event.getY();
                         return true;
                     case MotionEvent.ACTION_UP: // TODO: Check how long button pressed
                         Pinpoint pinpoint = new Pinpoint(getDrawable(pinpointResId), event.getX(), event.getY());
@@ -93,17 +95,32 @@ public class EditorActivity extends AppCompatActivity {
                         return true;
                     case DragEvent.ACTION_DRAG_LOCATION:
                         // TODO: Fix the blocky movement that happens here
-                        mapView.setX(event.getX());
-                        mapView.setY(event.getY());
+
+                        /*if(Math.abs(event.getX() - lastEventX) < dragDropThresh && Math.abs(event.getY() - lastEventY) < dragDropThresh) {
+                            mapView.setTranslationX(-1 * (lastEventX - event.getX()) / dragDamping);
+                            mapView.setTranslationY(-1 * (lastEventY - event.getY()) / dragDamping);
+                            lastEventX = event.getX(); // Resets last event correctly
+                            lastEventY = event.getY(); // Resets last event correctly
+                        } */
 
                         // Debugging purposes!!!
                         String debugStr = "X: " + String.valueOf(event.getX()) + " Y: " + String.valueOf(event.getY());
                         Log.v("STATUS", debugStr);
 
+                        mapView.setTranslationX(-1 * (lastEventX - event.getX()) / dragDamping);
+                        mapView.setTranslationY(-1 * (lastEventY - event.getY()) / dragDamping);
+
                         view.invalidate();
                         return true;
                     case DragEvent.ACTION_DRAG_ENDED:
                         Log.v("STATUS", "Drag Ended");
+
+                        // mapView.setTranslationX(-1 * (lastEventX - event.getX()) / dragDamping);
+                        // mapView.setTranslationY(-1 * (lastEventY - event.getY()) / dragDamping);
+
+                        lastEventX = event.getX();
+                        lastEventY = event.getY();
+
                         view.invalidate();
                         return true;
                     default:
@@ -177,8 +194,9 @@ public class EditorActivity extends AppCompatActivity {
     public GLRenderView renderView; // Experimental overlay for graphics
 
     private int pinpointResId;
-    // private float lastEventX, lastEventY;
-    // private final float dragDropThresh = 0.3f; // Threshold value to resist movement
+    private float lastEventX, lastEventY;
+    private final float dragDropThresh = 100.0f; // Threshold value to resist movement
+    private final float dragDamping = 3.0f;
     private final int pinpointIconWidth = 70;
     private final int pinpointIconHeight = 70;
 }

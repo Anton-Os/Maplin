@@ -3,6 +3,7 @@ package com.antonos.maplin;
 import android.content.Context;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -38,5 +39,7 @@ public class SelectorActivity extends AppCompatActivity {
 
         @Override
         public boolean hasStableIds() { return true; }
+
+        private List<ImageButton> deleteButtons; // Attempting to query all
     }
 }
