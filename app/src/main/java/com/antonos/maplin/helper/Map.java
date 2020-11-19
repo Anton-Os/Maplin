@@ -1,6 +1,8 @@
 package com.antonos.maplin.helper;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.util.Pair;
 
@@ -24,8 +26,10 @@ public class Map {
 
         public void setBkImage(int resId) {
             setImageResource(resId);
+
+            // TODO: Scale the image appropriately
+            // setMinimumWidth(((BitmapDrawable)getBackground()).getBitmap().getWidth());
+            // setMinimumHeight(((BitmapDrawable)getBackground()).getBitmap().getHeight());
         }
     }
-
-    // public List<Pair> pinpointImagePairs; // TODO: Switch to ImageViewCompat
 }

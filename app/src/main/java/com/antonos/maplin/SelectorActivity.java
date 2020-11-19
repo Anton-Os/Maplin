@@ -2,6 +2,9 @@ package com.antonos.maplin;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -37,9 +40,20 @@ public class SelectorActivity extends AppCompatActivity {
             super(context, resourceId, textViewResourceId, objects);
         }
 
+        /* @Override
+        public View getView(final int position, View convertView, ViewGroup parent){
+            convertView.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    // See what happens
+                    Log.v("STATUS", String.valueOf(position));
+                    return;
+                }
+            });
+            return convertView;
+        } */
+
         @Override
         public boolean hasStableIds() { return true; }
-
-        private List<ImageButton> deleteButtons; // Attempting to query all
     }
 }

@@ -3,8 +3,6 @@ package com.antonos.maplin;
 import android.annotation.SuppressLint;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -16,9 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
 import android.util.Log;
-import android.util.Pair;
 import android.view.DragEvent;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,9 +25,6 @@ import android.widget.Toast;
 
 import com.antonos.maplin.helper.Pinpoint;
 import com.antonos.maplin.helper.Map;
-import com.google.android.material.snackbar.Snackbar;
-
-import java.lang.Math;
 
 public class EditorActivity extends AppCompatActivity {
 // implements View.OnTouchListener, View.OnDragListener {
@@ -45,12 +38,13 @@ public class EditorActivity extends AppCompatActivity {
         // -------------- Setup and Loader Operations -------------- // TODO: Include code to load saved states
         startupNotify();
 
+        MaplinContext maplinContext = new MaplinContext();
         map = new Map("Starter Map");
 
         // -------------- Main UI Operations -------------- //
         frameLayout = findViewById(R.id.map_frame_layout);
         mapView = findViewById(R.id.map_view);
-        mapView.setBkImage(R.drawable.larger_beans);
+        mapView.setBkImage(R.drawable.us_map_3);
 
         pinpointResId = R.drawable.baseline_pin_drop_black_18dp; // Sets the default value
         mapView.setOnTouchListener(new View.OnTouchListener() { // On Touch Listener specific to MapView
