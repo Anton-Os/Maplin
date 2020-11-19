@@ -1,13 +1,19 @@
 package com.antonos.maplin.helper;
 
-        import android.content.Context;
-        import android.util.AttributeSet;
-        import android.util.Pair;
+import android.content.Context;
+import android.util.AttributeSet;
+import android.util.Pair;
 
-        import java.util.ArrayList;
-        import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Map {
+    public Map(String n){
+        name = n;
+    }
+
+    public void addPinpoint(Pinpoint pinpoint){ pinpointList.add(pinpoint); }
+
     private String name;
     private List<Pinpoint> pinpointList = new ArrayList<Pinpoint>();
 

@@ -8,19 +8,95 @@
     android:fitsSystemWindows="true"
     tools:context=".SelectorActivity">
 
-    <!-- <ScrollView
-        android:id="@+id/map_options_scroll"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:backgroundTint="@color/colorAccent"
-        app:layout_anchorGravity="top|center">
-
-        <LinearLayout
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <HorizontalScrollView
+            android:id="@+id/map_options_hscroll"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:orientation="vertical">
-        </LinearLayout>
-    </ScrollView> -->
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent">
+            <!-- Contains all the map editing options -->
+            <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:padding="20dp"
+                android:orientation="vertical">
+                <!-- Contains selections for pinpoint images -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="70dp"
+                    android:orientation="horizontal">
+                    <!-- Probably settle for 6 card views representing each icon -->
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/map_icon_selection1"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_marginRight="20dp"
+                        app:cardBackgroundColor="@color/colorCard"
+                        app:cardCornerRadius="3dp" />
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/map_icon_selection2"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_marginRight="20dp"
+                        app:cardBackgroundColor="@color/colorCard"
+                        app:cardCornerRadius="3dp" />
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/map_icon_selection3"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_marginRight="20dp"
+                        app:cardBackgroundColor="@color/colorCard"
+                        app:cardCornerRadius="3dp" />
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/map_icon_selection4"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_marginRight="20dp"
+                        app:cardBackgroundColor="@color/colorCard"
+                        app:cardCornerRadius="3dp" />
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/map_icon_selection5"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_marginRight="20dp"
+                        app:cardBackgroundColor="@color/colorCard"
+                        app:cardCornerRadius="3dp" />
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/map_icon_selection6"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_marginRight="20dp"
+                        app:cardBackgroundColor="@color/colorCard"
+                        app:cardCornerRadius="3dp" />
+                </LinearLayout>
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <ListView
+            android:id="@+id/map_list"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_anchor="@id/map_options_hscroll"
+            android:background="@color/colorPrimary">
+
+            <!-- Insert Option Items to Perform Operations -->
+
+        </ListView>
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorCard"
+            android:text="Create Map" />
+
+    </LinearLayout>
 
     <!-- Possible alternative to ListView -->
     <!-- <androidx.recyclerview.widget.RecyclerView
@@ -31,17 +107,4 @@
         android:cacheColorHint="#FFFFFF">
 
     </androidx.recyclerview.widget.RecyclerView> -->
-
-    <ListView
-        android:id="@+id/map_list"
-        android:paddingTop="10dp"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimary">
-
-        <!-- Insert Option Items to Perform Operations -->
-
-    </ListView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -45,6 +45,8 @@ public class EditorActivity extends AppCompatActivity {
         // -------------- Setup and Loader Operations -------------- // TODO: Include code to load saved states
         startupNotify();
 
+        map = new Map("Starter Map");
+
         // -------------- Main UI Operations -------------- //
         frameLayout = findViewById(R.id.map_frame_layout);
         mapView = findViewById(R.id.map_view);
@@ -63,6 +65,7 @@ public class EditorActivity extends AppCompatActivity {
                         return true;
                     case MotionEvent.ACTION_UP: // TODO: Check how long button pressed
                         Pinpoint pinpoint = new Pinpoint(getDrawable(pinpointResId), event.getX(), event.getY());
+                        map.addPinpoint(pinpoint);
 
                         Log.v("STATUS", "Up Action!");
                         ImageView pinpointIconView = new ImageView(getApplicationContext());
@@ -70,7 +73,7 @@ public class EditorActivity extends AppCompatActivity {
                         pinpointIconView.setX(event.getX() + mapView.getTranslationX() - (float)pinpointIconWidth / 2.0f);
                         pinpointIconView.setY(event.getY() + mapView.getTranslationY() - (float)pinpointIconHeight);
                         // pinpointIconView.setBackgroundColor(0x1100FFFF); // Optional background color
-                        pinpointIconView.setImageResource(pinpointResId);
+                        pinpointIconView.setImageDrawable(pinpoint.getIcon());
 
                         frameLayout.addView(pinpointIconView);
                         // map.pinpointImagePairs.add(new Pair(pinpoint, pinpointIconView));
@@ -94,29 +97,23 @@ public class EditorActivity extends AppCompatActivity {
                         view.invalidate();
                         return true;
                     case DragEvent.ACTION_DRAG_LOCATION:
-                        // TODO: Fix the blocky movement that happens here
+                        float translationX = -1 * (lastEventX - event.getX()) / dragDamping;
+                        float translationY = -1 * (lastEventY - event.getY()) / dragDamping;
 
-                        /*if(Math.abs(event.getX() - lastEventX) < dragDropThresh && Math.abs(event.getY() - lastEventY) < dragDropThresh) {
-                            mapView.setTranslationX(-1 * (lastEventX - event.getX()) / dragDamping);
-                            mapView.setTranslationY(-1 * (lastEventY - event.getY()) / dragDamping);
-                            lastEventX = event.getX(); // Resets last event correctly
-                            lastEventY = event.getY(); // Resets last event correctly
-                        } */
+                        mapView.setTranslationX(translationX);
+                        mapView.setTranslationY(translationY);
 
-                        // Debugging purposes!!!
-                        String debugStr = "X: " + String.valueOf(event.getX()) + " Y: " + String.valueOf(event.getY());
-                        Log.v("STATUS", debugStr);
-
-                        mapView.setTranslationX(-1 * (lastEventX - event.getX()) / dragDamping);
-                        mapView.setTranslationY(-1 * (lastEventY - event.getY()) / dragDamping);
+                        int pinpointCount = frameLayout.getChildCount();
+                        for(int viewIndex = 0; viewIndex < frameLayout.getChildCount(); viewIndex++) {
+                            View currentView = frameLayout.getChildAt(viewIndex);
+                            // currentView.setTranslationX(currentView.getX() - translationX);
+                            // currentView.setTranslationY(currentView.getY() - translationY0);
+                        }
 
                         view.invalidate();
                         return true;
                     case DragEvent.ACTION_DRAG_ENDED:
                         Log.v("STATUS", "Drag Ended");
-
-                        // mapView.setTranslationX(-1 * (lastEventX - event.getX()) / dragDamping);
-                        // mapView.setTranslationY(-1 * (lastEventY - event.getY()) / dragDamping);
 
                         lastEventX = event.getX();
                         lastEventY = event.getY();
