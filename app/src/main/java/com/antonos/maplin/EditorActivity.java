@@ -3,6 +3,7 @@ package com.antonos.maplin;
 import android.annotation.SuppressLint;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -12,11 +13,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
+import androidx.core.view.ScaleGestureDetectorCompat;
 
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -36,9 +39,11 @@ public class EditorActivity extends AppCompatActivity {
         setContentView(R.layout.editor_activity);
 
         // -------------- Setup and Loader Operations -------------- // TODO: Include code to load saved states
+        sharedPrefs = getApplicationContext().getSharedPreferences(MaplinContext.sharedPrefsFile, getApplicationContext().MODE_PRIVATE);
+        maplinContext = new MaplinContext(sharedPrefs);
         startupNotify();
 
-        MaplinContext maplinContext = new MaplinContext();
+
         map = new Map("Starter Map");
 
         // -------------- Main UI Operations -------------- //
@@ -47,10 +52,14 @@ public class EditorActivity extends AppCompatActivity {
         mapView.setBkImage(R.drawable.us_map_3);
 
         pinpointResId = R.drawable.baseline_pin_drop_black_18dp; // Sets the default value
+        // TODO: Implement a custom scale gesture listener
+        final ScaleGestureDetector scaleGestureDetector = new ScaleGestureDetector(getApplicationContext(), new ScaleGestureDetector.SimpleOnScaleGestureListener());
         mapView.setOnTouchListener(new View.OnTouchListener() { // On Touch Listener specific to MapView
             @RequiresApi(api = Build.VERSION_CODES.N) // TODO: Update to Android Version 24
             @Override
             public boolean onTouch(View view, @SuppressLint("ClickableViewAccessibility") MotionEvent event) {
+                scaleGestureDetector.onTouchEvent(event);
+
                 switch (event.getActionMasked()) {
                     case MotionEvent.ACTION_DOWN:
                         Log.v("STATUS", "Down Action!");
@@ -77,6 +86,7 @@ public class EditorActivity extends AppCompatActivity {
                         View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder();
                         view.startDragAndDrop(null, shadowBuilder, view, 0);
                         return true;
+
                     default:
                         return false;
                 }
@@ -85,29 +95,30 @@ public class EditorActivity extends AppCompatActivity {
         mapView.setOnDragListener(new View.OnDragListener() {
             @Override
             public boolean onDrag(View view, DragEvent event) {
+                float translationX = -1 * (lastEventX - event.getX()) / dragDamping;
+                float translationY = -1 * (lastEventY - event.getY()) / dragDamping;
+
                 switch(event.getAction()){
                     case DragEvent.ACTION_DRAG_STARTED:
                         Log.v("STATUS", "Drag Started");
                         view.invalidate();
                         return true;
                     case DragEvent.ACTION_DRAG_LOCATION:
-                        float translationX = -1 * (lastEventX - event.getX()) / dragDamping;
-                        float translationY = -1 * (lastEventY - event.getY()) / dragDamping;
-
                         mapView.setTranslationX(translationX);
                         mapView.setTranslationY(translationY);
-
-                        int pinpointCount = frameLayout.getChildCount();
-                        for(int viewIndex = 0; viewIndex < frameLayout.getChildCount(); viewIndex++) {
-                            View currentView = frameLayout.getChildAt(viewIndex);
-                            // currentView.setTranslationX(currentView.getX() - translationX);
-                            // currentView.setTranslationY(currentView.getY() - translationY0);
-                        }
 
                         view.invalidate();
                         return true;
                     case DragEvent.ACTION_DRAG_ENDED:
                         Log.v("STATUS", "Drag Ended");
+
+                        int pinpointCount = frameLayout.getChildCount();
+                        // Start offset at 1 so the map view is unaffected
+                        for(int viewIndex = 1; viewIndex < frameLayout.getChildCount(); viewIndex++) {
+                            View currentView = frameLayout.getChildAt(viewIndex);
+                            currentView.setTranslationX(currentView.getX() + translationX);
+                            currentView.setTranslationY(currentView.getY() + translationY);
+                        }
 
                         lastEventX = event.getX();
                         lastEventY = event.getY();
@@ -179,13 +190,17 @@ public class EditorActivity extends AppCompatActivity {
         // NotificationManagerCompat.from(this).notify(1, notifyBuilder.build());
     }
 
+    public MaplinContext maplinContext; // Each activity needs a context instance
+    public SharedPreferences sharedPrefs;
+
     public FrameLayout frameLayout;
     public Map map; // New map wrapper class
     public Map.MapView mapView; // Use this to display target map // TODO: Replace with com.antonos.maplin.Map
     public GLRenderView renderView; // Experimental overlay for graphics
+    // public ScaleGestureDetectorCompat scaleGestureDetector;
 
     private int pinpointResId;
-    private float lastEventX, lastEventY;
+    private float lastEventX, lastEventY; // Used for motion detection
     private final float dragDropThresh = 100.0f; // Threshold value to resist movement
     private final float dragDamping = 3.0f;
     private final int pinpointIconWidth = 70;
