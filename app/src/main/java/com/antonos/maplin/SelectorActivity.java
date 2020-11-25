@@ -25,24 +25,23 @@ public class SelectorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.selector_activity);
 
+        // -------------- Setup and Loader Operations -------------- //
         sharedPrefs = getApplicationContext().getSharedPreferences(MaplinContext.sharedPrefsFile, getApplicationContext().MODE_PRIVATE);
         maplinContext = new MaplinContext(sharedPrefs);
 
-        final List<Integer> mapIconRes = Arrays.asList(
-            R.id.map_icon_selection1,
-            R.id.map_icon_selection2,
-            R.id.map_icon_selection3,
-            R.id.map_icon_selection4,
-            R.id.map_icon_selection5,
-            R.id.map_icon_selection6
-        );
-        for(Integer resource : mapIconRes){
-            CardView cardView = findViewById(resource);
-            Log.v("STATUS", "Card view found!");
-            // TODO: Set the appropriate resource for each card view
+        mMapPinpointGroup = genMapPinpointGroup();
+        for(MaplinContext.MapSelectionGroup group : mMapPinpointGroup){
+            CardView cardView = findViewById(group.resourceId);
+            Log.v("STATUS", "Card view resource " + group.resourceId + " found!");
+            cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.v("STATUS", "Card view selection!");
+                }
+            });
         }
 
-        // RecyclerView rcyclMapList = (RecyclerView)findViewById(R.id.rcycl_map_list);
+        // -------------- Main UI Operations -------------- //
         ListView mapListView = (ListView)findViewById(R.id.map_list);
 
         // TODO: Code below is dependent on MaplinContext configurations
@@ -55,28 +54,63 @@ public class SelectorActivity extends AppCompatActivity {
         mapListView.setAdapter(mapList_adapter);
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        // TODO: Modify the shared preferences file
+    }
+
+    // Adapter for the the list mapListView instance
     private class MapList_Adapter extends ArrayAdapter<String> { // Stable unchanging adapter for options
         public MapList_Adapter(@NonNull Context context, int resourceId, int textViewResourceId, @NonNull List<String> objects) {
             super(context, resourceId, textViewResourceId, objects);
         }
 
-        /* @Override
-        public View getView(final int position, View convertView, ViewGroup parent){
-            convertView.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    // See what happens
-                    Log.v("STATUS", String.valueOf(position));
-                    return;
-                }
-            });
-            return convertView;
-        } */
-
         @Override
         public boolean hasStableIds() { return true; }
     }
 
+    // Generates a list of pinpoints specific to the SelectorActivity and selector_activity.xml layout
+    private List<MaplinContext.MapSelectionGroup> genMapPinpointGroup() { // This is just for pinpoints!
+        List<MaplinContext.MapSelectionGroup> mapSelectionGroups = new ArrayList<>();
+
+        final List<String> mapPinpointPaths = Arrays.asList(
+            maplinContext.getPinpointPath(0),
+            maplinContext.getPinpointPath(1),
+            maplinContext.getPinpointPath(2),
+            maplinContext.getPinpointPath(3),
+            maplinContext.getPinpointPath(4),
+            maplinContext.getPinpointPath(5)
+        );
+
+        final List<Integer> mapPinpointRes = Arrays.asList(
+            R.id.map_pinpoint_selection1,
+            R.id.map_pinpoint_selection2,
+            R.id.map_pinpoint_selection3,
+            R.id.map_pinpoint_selection4,
+            R.id.map_pinpoint_selection5,
+            R.id.map_pinpoint_selection6
+        );
+        // TODO: These should be set dynamically based on MaplinContext
+        // TODO: The mapPinpointRes[] should be changed where the cooresponding path is not ""
+
+        final List<Integer> mapPinpointRQCodes = Arrays.asList(
+                1, 2, 3, 4, 5, 6
+        ); // These are specific for pinpoints!
+
+        for(int g = 0; g < 6; g++)
+            mapSelectionGroups.add(new MaplinContext.MapSelectionGroup(
+                    mapPinpointPaths.get(g),
+                    mapPinpointRes.get(g),
+                    mapPinpointRQCodes.get(g)
+            ));
+        
+        return mapSelectionGroups;
+    }
+    
     public MaplinContext maplinContext; // Each activity needs a context instance
     public SharedPreferences sharedPrefs;
+
+    public List<MaplinContext.MapSelectionGroup> mMapPinpointGroup;
 }

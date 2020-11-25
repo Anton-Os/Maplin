@@ -30,42 +30,42 @@
                     android:orientation="horizontal">
                     <!-- Probably settle for 6 card views representing each icon -->
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/map_icon_selection1"
+                        android:id="@+id/map_pinpoint_selection1"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_marginRight="20dp"
                         app:cardBackgroundColor="@color/colorCard"
                         app:cardCornerRadius="3dp" />
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/map_icon_selection2"
+                        android:id="@+id/map_pinpoint_selection2"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_marginRight="20dp"
                         app:cardBackgroundColor="@color/colorCard"
                         app:cardCornerRadius="3dp" />
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/map_icon_selection3"
+                        android:id="@+id/map_pinpoint_selection3"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_marginRight="20dp"
                         app:cardBackgroundColor="@color/colorCard"
                         app:cardCornerRadius="3dp" />
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/map_icon_selection4"
+                        android:id="@+id/map_pinpoint_selection4"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_marginRight="20dp"
                         app:cardBackgroundColor="@color/colorCard"
                         app:cardCornerRadius="3dp" />
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/map_icon_selection5"
+                        android:id="@+id/map_pinpoint_selection5"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_marginRight="20dp"
                         app:cardBackgroundColor="@color/colorCard"
                         app:cardCornerRadius="3dp" />
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/map_icon_selection6"
+                        android:id="@+id/map_pinpoint_selection6"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_marginRight="20dp"

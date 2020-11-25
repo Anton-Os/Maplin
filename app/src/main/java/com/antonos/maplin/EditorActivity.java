@@ -41,8 +41,7 @@ public class EditorActivity extends AppCompatActivity {
         // -------------- Setup and Loader Operations -------------- // TODO: Include code to load saved states
         sharedPrefs = getApplicationContext().getSharedPreferences(MaplinContext.sharedPrefsFile, getApplicationContext().MODE_PRIVATE);
         maplinContext = new MaplinContext(sharedPrefs);
-        startupNotify();
-
+        // startupNotify();
 
         map = new Map("Starter Map");
 
@@ -180,6 +179,14 @@ public class EditorActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        // TODO: Modify the shared preferences file
+    }
+
+    // Experimental method for notifications
     private void startupNotify(){ // Notification experiment
         String channeIdStr = "maplin_channel_N1";
         NotificationCompat.Builder notifyBuilder = new NotificationCompat.Builder(this, channeIdStr);
