@@ -10,14 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Map {
-    public Map(String n){
+    public Map(String n, int rs){
         name = n;
+        basemapImageRes = rs;
     }
-
-    public void addPinpoint(Pinpoint pinpoint){ pinpointList.add(pinpoint); }
-
-    private String name;
-    private List<Pinpoint> pinpointList = new ArrayList<Pinpoint>();
 
     public static class MapView extends androidx.appcompat.widget.AppCompatImageView {
         public MapView(Context context) { super(context); }
@@ -32,4 +28,12 @@ public class Map {
             // setMinimumHeight(((BitmapDrawable)getBackground()).getBitmap().getHeight());
         }
     }
+
+    public void addPinpoint(Pinpoint pinpoint){ pinpointList.add(pinpoint); }
+    public int getBasemapImageRes(){ return basemapImageRes; }
+
+    private String name;
+    private List<Pinpoint> pinpointList = new ArrayList<Pinpoint>();
+    private int basemapImageRes = 0;
+    // TODO: Include resources for layered or "stacked" image resources
 }

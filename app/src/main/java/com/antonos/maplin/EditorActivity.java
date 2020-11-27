@@ -43,12 +43,12 @@ public class EditorActivity extends AppCompatActivity {
         maplinContext = new MaplinContext(sharedPrefs);
         // startupNotify();
 
-        map = new Map("Starter Map");
+        map = new Map("Starter Map", R.drawable.us_map_3); // Named Map object with a base image
 
         // -------------- Main UI Operations -------------- //
         frameLayout = findViewById(R.id.map_frame_layout);
         mapView = findViewById(R.id.map_view);
-        mapView.setBkImage(R.drawable.us_map_3);
+        mapView.setBkImage(map.getBasemapImageRes());
 
         pinpointResId = R.drawable.baseline_pin_drop_black_18dp; // Sets the default value
         // TODO: Implement a custom scale gesture listener
@@ -210,6 +210,6 @@ public class EditorActivity extends AppCompatActivity {
     private float lastEventX, lastEventY; // Used for motion detection
     private final float dragDropThresh = 100.0f; // Threshold value to resist movement
     private final float dragDamping = 3.0f;
-    private final int pinpointIconWidth = 70;
-    private final int pinpointIconHeight = 70;
+    private final int pinpointIconWidth = 70; // TODO: Make sure this parameter is scalable
+    private final int pinpointIconHeight = 70; // TODO: Make sure this parameter is scalable
 }

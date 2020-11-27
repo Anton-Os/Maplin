@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -37,6 +38,8 @@ public class SelectorActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Log.v("STATUS", "Card view selection!");
+
+                    // TODO: Include an alert dialog with name and image selection properties
                 }
             });
         }
@@ -52,6 +55,14 @@ public class SelectorActivity extends AppCompatActivity {
 
         MapList_Adapter mapList_adapter = new MapList_Adapter(this, R.layout.map_list_item, R.id.map_item_text, mapList);
         mapListView.setAdapter(mapList_adapter);
+
+        Button createButton = (Button)findViewById(R.id.create_map_button);
+        createButton.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                // Create new map screen
+            }
+        });
     }
 
     @Override
