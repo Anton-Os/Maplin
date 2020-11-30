@@ -34,12 +34,15 @@ public class SelectorActivity extends AppCompatActivity {
         for(MaplinContext.MapSelectionGroup group : mMapPinpointGroup){
             CardView cardView = findViewById(group.resourceId);
             Log.v("STATUS", "Card view resource " + group.resourceId + " found!");
+
+            // cardView.setBackground(getDrawable(group.resourceId)); // TODO: Fix to set background
+
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Log.v("STATUS", "Card view selection!");
 
-                    // TODO: Include an alert dialog with name and image selection properties
+                    // TODO: Include ChangeIconDialog class!
                 }
             });
         }
@@ -87,12 +90,12 @@ public class SelectorActivity extends AppCompatActivity {
         List<MaplinContext.MapSelectionGroup> mapSelectionGroups = new ArrayList<>();
 
         final List<String> mapPinpointPaths = Arrays.asList(
-            maplinContext.getPinpointPath(0),
-            maplinContext.getPinpointPath(1),
-            maplinContext.getPinpointPath(2),
-            maplinContext.getPinpointPath(3),
-            maplinContext.getPinpointPath(4),
-            maplinContext.getPinpointPath(5)
+            maplinContext.getPinpointImagePath(0),
+            maplinContext.getPinpointImagePath(1),
+            maplinContext.getPinpointImagePath(2),
+            maplinContext.getPinpointImagePath(3),
+            maplinContext.getPinpointImagePath(4),
+            maplinContext.getPinpointImagePath(5)
         );
 
         final List<Integer> mapPinpointRes = Arrays.asList(
