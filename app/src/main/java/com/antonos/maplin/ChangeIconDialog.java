@@ -2,8 +2,13 @@ package com.antonos.maplin;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 public class ChangeIconDialog extends DialogFragment {
@@ -12,11 +17,14 @@ public class ChangeIconDialog extends DialogFragment {
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState){
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        return inflater.inflate(R.layout.change_icon_dialog, container);
+    }
 
-        // TODO: Set builder properties here
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
+        super.onViewCreated(view, savedInstanceState);
 
-        return builder.create();
+        return;
     }
 }

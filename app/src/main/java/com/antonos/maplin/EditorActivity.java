@@ -29,8 +29,9 @@ import android.widget.Toast;
 import com.antonos.maplin.helper.Pinpoint;
 import com.antonos.maplin.helper.Map;
 
-public class EditorActivity extends AppCompatActivity {
-// implements View.OnTouchListener, View.OnDragListener {
+import java.util.List;
+
+public class EditorActivity extends MaplinActivity {
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -39,21 +40,18 @@ public class EditorActivity extends AppCompatActivity {
         setContentView(R.layout.editor_activity);
 
         // -------------- Setup and Loader Operations -------------- // TODO: Include code to load saved states
-        sharedPrefs = getApplicationContext().getSharedPreferences(MaplinContext.sharedPrefsFile, getApplicationContext().MODE_PRIVATE);
-        maplinContext = new MaplinContext(sharedPrefs);
         // startupNotify();
 
-        map = new Map("Starter Map", R.drawable.us_map_3); // Named Map object with a base image
+        mMap = new Map("Starter Map", R.drawable.us_map_3); // Named Map object with a base image
 
         // -------------- Main UI Operations -------------- //
-        frameLayout = findViewById(R.id.map_frame_layout);
-        mapView = findViewById(R.id.map_view);
-        mapView.setBkImage(map.getBasemapImageRes());
+        mFrameLayout = findViewById(R.id.map_frame_layout);
+        mMapView = findViewById(R.id.map_view);
+        mMapView.setBkImage(mMap.getBasemapImageRes());
 
-        pinpointResId = R.drawable.baseline_pin_drop_black_18dp; // Sets the default value
         // TODO: Implement a custom scale gesture listener
         final ScaleGestureDetector scaleGestureDetector = new ScaleGestureDetector(getApplicationContext(), new ScaleGestureDetector.SimpleOnScaleGestureListener());
-        mapView.setOnTouchListener(new View.OnTouchListener() { // On Touch Listener specific to MapView
+        mMapView.setOnTouchListener(new View.OnTouchListener() { // On Touch Listener specific to MapView
             @RequiresApi(api = Build.VERSION_CODES.N) // TODO: Update to Android Version 24
             @Override
             public boolean onTouch(View view, @SuppressLint("ClickableViewAccessibility") MotionEvent event) {
@@ -66,18 +64,18 @@ public class EditorActivity extends AppCompatActivity {
                         lastEventY = event.getY();
                         return true;
                     case MotionEvent.ACTION_UP: // TODO: Check how long button pressed
-                        Pinpoint pinpoint = new Pinpoint(getDrawable(pinpointResId), event.getX(), event.getY());
-                        map.addPinpoint(pinpoint);
+                        Pinpoint pinpoint = new Pinpoint(getDrawable(mPinpointResId), event.getX(), event.getY());
+                        mMap.addPinpoint(pinpoint);
 
                         Log.v("STATUS", "Up Action!");
                         ImageView pinpointIconView = new ImageView(getApplicationContext());
                         pinpointIconView.setLayoutParams(new ViewGroup.LayoutParams(pinpointIconWidth, pinpointIconHeight));
-                        pinpointIconView.setX(event.getX() + mapView.getTranslationX() - (float)pinpointIconWidth / 2.0f);
-                        pinpointIconView.setY(event.getY() + mapView.getTranslationY() - (float)pinpointIconHeight);
+                        pinpointIconView.setX(event.getX() + mMapView.getTranslationX() - (float)pinpointIconWidth / 2.0f);
+                        pinpointIconView.setY(event.getY() + mMapView.getTranslationY() - (float)pinpointIconHeight);
                         // pinpointIconView.setBackgroundColor(0x1100FFFF); // Optional background color
                         pinpointIconView.setImageDrawable(pinpoint.getIcon());
 
-                        frameLayout.addView(pinpointIconView);
+                        mFrameLayout.addView(pinpointIconView);
                         // map.pinpointImagePairs.add(new Pair(pinpoint, pinpointIconView));
                         return true;
                     case MotionEvent.ACTION_MOVE:
@@ -91,7 +89,7 @@ public class EditorActivity extends AppCompatActivity {
                 }
             }
         });
-        mapView.setOnDragListener(new View.OnDragListener() {
+        mMapView.setOnDragListener(new View.OnDragListener() {
             @Override
             public boolean onDrag(View view, DragEvent event) {
                 float translationX = -1 * (lastEventX - event.getX()) / dragDamping;
@@ -103,18 +101,18 @@ public class EditorActivity extends AppCompatActivity {
                         view.invalidate();
                         return true;
                     case DragEvent.ACTION_DRAG_LOCATION:
-                        mapView.setTranslationX(translationX);
-                        mapView.setTranslationY(translationY);
+                        mMapView.setTranslationX(translationX);
+                        mMapView.setTranslationY(translationY);
 
                         view.invalidate();
                         return true;
                     case DragEvent.ACTION_DRAG_ENDED:
                         Log.v("STATUS", "Drag Ended");
 
-                        int pinpointCount = frameLayout.getChildCount();
+                        int pinpointCount = mFrameLayout.getChildCount();
                         // Start offset at 1 so the map view is unaffected
-                        for(int viewIndex = 1; viewIndex < frameLayout.getChildCount(); viewIndex++) {
-                            View currentView = frameLayout.getChildAt(viewIndex);
+                        for(int viewIndex = 1; viewIndex < mFrameLayout.getChildCount(); viewIndex++) {
+                            View currentView = mFrameLayout.getChildAt(viewIndex);
                             currentView.setTranslationX(currentView.getX() + translationX);
                             currentView.setTranslationY(currentView.getY() + translationY);
                         }
@@ -156,21 +154,29 @@ public class EditorActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.map_edit_slot1:
-                        pinpointResId = R.drawable.baseline_pin_drop_black_18dp;
+                        mPinpointResId = R.drawable.baseline_pin_drop_black_18dp;
                         Log.v("STATUS", "Work!");
-                        Toast.makeText(getApplicationContext(), "Switched to pin drop!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Switched to " + getString(R.string.pinpoint_text1) + " drop!", Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.map_edit_slot2:
-                        pinpointResId = R.drawable.baseline_person_pin_circle_black_18dp;
-                        Toast.makeText(getApplicationContext(), "Switched to person drop!", Toast.LENGTH_SHORT).show();
+                        mPinpointResId = R.drawable.baseline_person_pin_circle_black_18dp;
+                        Toast.makeText(getApplicationContext(), "Switched to " + getString(R.string.pinpoint_text2) + " drop!", Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.map_edit_slot3:
-                        pinpointResId = R.drawable.baseline_terrain_black_18dp;
-                        Toast.makeText(getApplicationContext(), "Switched to terrain drop!", Toast.LENGTH_SHORT).show();
+                        mPinpointResId = R.drawable.baseline_terrain_black_18dp;
+                        Toast.makeText(getApplicationContext(), "Switched to " + getString(R.string.pinpoint_text3) + " drop!", Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.map_edit_slot4:
-                        pinpointResId = R.drawable.baseline_grass_black_18dp;
-                        Toast.makeText(getApplicationContext(), "Switched to grass drop!", Toast.LENGTH_SHORT).show();
+                        mPinpointResId = R.drawable.baseline_grass_black_18dp;
+                        Toast.makeText(getApplicationContext(), "Switched to " + getString(R.string.pinpoint_text4) + " drop!", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.map_edit_slot5:
+                        mPinpointResId = R.drawable.baseline_location_city_black_18dp;
+                        Toast.makeText(getApplicationContext(), "Switched to " + getString(R.string.pinpoint_text5) + " drop!", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.map_edit_slot6:
+                        mPinpointResId = R.drawable.baseline_anchor_black_18dp;
+                        Toast.makeText(getApplicationContext(), "Switched to " + getString(R.string.pinpoint_text6) + " drop!", Toast.LENGTH_SHORT).show();
                         return true;
                     default:
                         return true;
@@ -197,19 +203,17 @@ public class EditorActivity extends AppCompatActivity {
         // NotificationManagerCompat.from(this).notify(1, notifyBuilder.build());
     }
 
-    public MaplinContext maplinContext; // Each activity needs a context instance
-    public SharedPreferences sharedPrefs;
-
-    public FrameLayout frameLayout;
-    public Map map; // New map wrapper class
-    public Map.MapView mapView; // Use this to display target map // TODO: Replace with com.antonos.maplin.Map
-    public GLRenderView renderView; // Experimental overlay for graphics
+    public FrameLayout mFrameLayout;
+    public Map mMap; // New map wrapper class
+    public Map.MapView mMapView; // Use this to display target map // TODO: Replace with com.antonos.maplin.Map
+    public GLRenderView mRenderView; // Experimental overlay for graphics
     // public ScaleGestureDetectorCompat scaleGestureDetector;
 
-    private int pinpointResId;
+    private int mPinpointResId = R.drawable.baseline_pin_drop_black_18dp;
     private float lastEventX, lastEventY; // Used for motion detection
     private final float dragDropThresh = 100.0f; // Threshold value to resist movement
     private final float dragDamping = 3.0f;
-    private final int pinpointIconWidth = 70; // TODO: Make sure this parameter is scalable
-    private final int pinpointIconHeight = 70; // TODO: Make sure this parameter is scalable
+    private final int pinpointIconWidth = 18; // TODO: Make sure this parameter is scalable
+    private final int pinpointIconHeight = 18; // TODO: Make sure this parameter is scalable
+
 }

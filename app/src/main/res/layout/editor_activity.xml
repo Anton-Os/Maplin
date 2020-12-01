@@ -9,7 +9,7 @@
     tools:context=".EditorActivity">
 
     <!-- Embedding Map View to take up entire background -->
-<include layout="@layout/map_view" />
+    <include layout="@layout/editor_embed_map_view" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
     xmlns:app="http://schemas.android.com/apk/res-auto"

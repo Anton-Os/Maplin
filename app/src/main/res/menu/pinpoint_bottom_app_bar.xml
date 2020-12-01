@@ -30,4 +30,18 @@
         android:visible="true"
         app:showAsAction="always" />
 
+    <item android:id="@+id/map_edit_slot5"
+        android:title="D"
+        android:icon="@drawable/baseline_location_city_black_18dp"
+        android:navigationContentDescription="slot 5"
+        android:visible="true"
+        app:showAsAction="always" />
+
+    <item android:id="@+id/map_edit_slot6"
+        android:title="D"
+        android:icon="@drawable/baseline_anchor_black_18dp"
+        android:navigationContentDescription="slot 6"
+        android:visible="true"
+        app:showAsAction="always" />
+
 </menu>

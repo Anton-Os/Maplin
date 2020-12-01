@@ -15,6 +15,10 @@ import java.util.Set;
 public class MaplinContext { // TODO: Make into a singleton object
 
     public MaplinContext(SharedPreferences sharedPrefs){
+        // Should properly reset the class to default values
+        mNamedPinpoints.clear();
+        mNamedMaps.clear();
+
         // TODO: Address the issue noted below using a String Set
         // TODO: Make sure that Pin, Person, Terrain, etc... are modifiable, right now they are fixed which is a problem
         final List<String> pinpointNames = (sharedPrefs.contains(pinpointNamesListKey)) ?
@@ -29,7 +33,7 @@ public class MaplinContext { // TODO: Make into a singleton object
         }
 
         final List<String> mapNames = (sharedPrefs.contains(mapNamesListKey)) ?
-           genMapNames(sharedPrefs) : Arrays.asList("Global Map", "US Map", "Map No. 3", "Arctic Map");
+           genMapNames(sharedPrefs) : Arrays.asList("Global Map", "US Map", "Map No. 3", "Arctic Map", "Best Campgrounds Near Joshua Tree National Park, California");
 
         for(String mapTargetName : mapNames){
             String targetNameValue = sharedPrefs.getString(mapNamePrefix + '_' + mapTargetName, emptyPath);
@@ -51,6 +55,11 @@ public class MaplinContext { // TODO: Make into a singleton object
 
     // -------------- Context reader functions -------------- //
 
+    public String getPinpointName(int index){ // TODO: May need a map object instead of a file path
+        assert(index < pinpointIconCount);
+        return mNamedPinpoints.get(index).first;
+    }
+
     public String getPinpointImagePath(int index){
         assert(index < pinpointIconCount);
         return mNamedPinpoints.get(index).second;
@@ -62,6 +71,13 @@ public class MaplinContext { // TODO: Make into a singleton object
         // TODO: Body needs to be implemented
 
         return null;
+    }
+
+    public int getMapCount(){ return mNamedMaps.toArray().length; }
+
+    public String getMapName(int index){ // TODO: May need a map object instead of a file path
+        assert(index < mNamedMaps.size());
+        return mNamedMaps.get(index).first;
     }
 
     public String getMapFilePath(int index){ // TODO: May need a map object instead of a file path

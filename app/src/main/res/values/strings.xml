@@ -91,4 +91,11 @@
     </string>
     <string name="action_settings">Settings</string>
     <string name="action_add">Add A New Map</string>
+
+    <string name="pinpoint_text1">Pin</string>
+    <string name="pinpoint_text2">Person</string>
+    <string name="pinpoint_text3">Terrain</string>
+    <string name="pinpoint_text4">Grass</string>
+    <string name="pinpoint_text5">City</string>
+    <string name="pinpoint_text6">Port</string>
 </resources>
