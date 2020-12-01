@@ -14,6 +14,8 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -27,7 +29,9 @@ public class SelectorActivity extends MaplinActivity {
         setContentView(R.layout.selector_activity);
 
         // -------------- Setup and Loader Operations -------------- //
-        for(MaplinContext.MapSelectionGroup group : mPinpointGroups){
+
+
+        for(final MaplinContext.MapSelectionGroup group : mPinpointGroups){
             CardView cardView = findViewById(group.resourceId);
             Log.v("STATUS", "Card view resource " + group.resourceId + " found!");
 
@@ -37,8 +41,16 @@ public class SelectorActivity extends MaplinActivity {
                 @Override
                 public void onClick(View v) {
                     Log.v("STATUS", "Card view selection!");
+                    mFragmentTrans = getSupportFragmentManager().beginTransaction();
 
-                    // TODO: Include ChangeIconDialog class!
+                    // Remove old instance to prevent any errors
+                    Fragment prevFragTrans = getSupportFragmentManager().findFragmentByTag("Change Pinpoint Dialog");
+                    if(prevFragTrans != null)
+                        mFragmentTrans.remove(prevFragTrans);
+
+                    mPinpointDialog = new ChangeIconDialog(group);
+                    mPinpointDialog.show(mFragmentTrans, "Change Pinpoint Dialog");
+
                 }
             });
         }
@@ -79,4 +91,7 @@ public class SelectorActivity extends MaplinActivity {
         @Override
         public boolean hasStableIds() { return true; }
     }
+
+    private FragmentTransaction mFragmentTrans;
+    private ChangeIconDialog mPinpointDialog;
 }

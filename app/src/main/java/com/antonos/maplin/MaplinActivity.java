@@ -25,6 +25,15 @@ public class MaplinActivity extends AppCompatActivity {
     private List<MaplinContext.MapSelectionGroup> genMapPinpointGroups() { // This is just for pinpoints!
         List<MaplinContext.MapSelectionGroup> mapSelectionGroups = new ArrayList<>();
 
+        final List<String> mapPinpointNames = Arrays.asList(
+                mMaplinContext.getPinpointName(0),
+                mMaplinContext.getPinpointName(1),
+                mMaplinContext.getPinpointName(2),
+                mMaplinContext.getPinpointName(3),
+                mMaplinContext.getPinpointName(4),
+                mMaplinContext.getPinpointName(5)
+        );
+
         final List<String> mapPinpointPaths = Arrays.asList(
                 mMaplinContext.getPinpointImagePath(0),
                 mMaplinContext.getPinpointImagePath(1),
@@ -51,6 +60,7 @@ public class MaplinActivity extends AppCompatActivity {
 
         for(int g = 0; g < 6; g++)
             mapSelectionGroups.add(new MaplinContext.MapSelectionGroup(
+                    mapPinpointNames.get(g),
                     mapPinpointPaths.get(g),
                     mapPinpointRes.get(g),
                     mapPinpointRQCodes.get(g)

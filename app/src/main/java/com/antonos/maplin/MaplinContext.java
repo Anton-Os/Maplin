@@ -45,9 +45,10 @@ public class MaplinContext { // TODO: Make into a singleton object
     }
 
     public static class MapSelectionGroup { // Group of values that identify a map element and its relevant properties
-        MapSelectionGroup(String p, int rs, int rc){
-            path = p; resourceId = rs; requestCode = rc;
+        MapSelectionGroup(String n, String p, int rs, int rc){
+            name = n; path = p; resourceId = rs; requestCode = rc;
         }
+        public String name;
         public String path; // Maplin specific
         public int resourceId; // Specific to XML layout file
         public int requestCode; // Specific to calling Activity

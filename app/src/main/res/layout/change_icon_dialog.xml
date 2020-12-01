@@ -2,25 +2,39 @@
 <RelativeLayout
     android:id="@+id/change_icon_alert_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/colorAlert"
     android:padding="10dp">
+
+    <ImageView
+        android:layout_marginTop="30dp"
+        android:id="@+id/change_icon_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:src="@drawable/baseline_pin_drop_black_18dp"/>
 
     <EditText
         android:id="@+id/change_icon_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/change_icon_preset_button"
         android:text="! Insert Current Text !"/>
     <Button
+        android:id="@+id/change_icon_preset_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/change_icon_browse_button"
         android:text="Choose Preset"/>
     <Button
+        android:id="@+id/change_icon_browse_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:text="Browse Device"/>
-
 
 </RelativeLayout>
