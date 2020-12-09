@@ -43,7 +43,16 @@ public class MaplinActivity extends AppCompatActivity {
                 mMaplinContext.getPinpointImagePath(5)
         );
 
-        final List<Integer> mapPinpointRes = Arrays.asList(
+        final List<Integer> mapPinpointDefaultImgRes = Arrays.asList(
+                R.drawable.baseline_pin_drop_black_18dp,
+                R.drawable.baseline_person_pin_circle_black_18dp,
+                R.drawable.baseline_terrain_black_18dp,
+                R.drawable.baseline_grass_black_18dp,
+                R.drawable.baseline_location_city_black_18dp,
+                R.drawable.baseline_anchor_black_18dp
+        );
+
+        final List<Integer> mapPinpointResId = Arrays.asList(
                 R.id.map_pinpoint_selection1,
                 R.id.map_pinpoint_selection2,
                 R.id.map_pinpoint_selection3,
@@ -62,7 +71,8 @@ public class MaplinActivity extends AppCompatActivity {
             mapSelectionGroups.add(new MaplinContext.MapSelectionGroup(
                     mapPinpointNames.get(g),
                     mapPinpointPaths.get(g),
-                    mapPinpointRes.get(g),
+                    mapPinpointDefaultImgRes.get(g),
+                    mapPinpointResId.get(g),
                     mapPinpointRQCodes.get(g)
             ));
 

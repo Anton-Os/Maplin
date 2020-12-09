@@ -45,11 +45,12 @@ public class MaplinContext { // TODO: Make into a singleton object
     }
 
     public static class MapSelectionGroup { // Group of values that identify a map element and its relevant properties
-        MapSelectionGroup(String n, String p, int rs, int rc){
-            name = n; path = p; resourceId = rs; requestCode = rc;
+        MapSelectionGroup(String n, String p, int di, int rs, int rc){
+            name = n; path = p; defaultImgRes = di; resourceId = rs; requestCode = rc;
         }
         public String name;
         public String path; // Maplin specific
+        public int defaultImgRes; // Default resource loaded if path is empty
         public int resourceId; // Specific to XML layout file
         public int requestCode; // Specific to calling Activity
     }
@@ -138,7 +139,7 @@ public class MaplinContext { // TODO: Make into a singleton object
 
         for(Pair<String, String> namedMap : mNamedMaps){
             // TODO: Implement a json file, Maps are more complex objects
-            String defaultFilePath = "cutom_filepath_here.json";
+            String defaultFilePath = "custom_filepath_here.json";
             editor.putString(namedMap.first, defaultFilePath); // TODO: Fix this!
         }
 
